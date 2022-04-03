@@ -13,15 +13,15 @@ import { SpaceButton } from "./components/SpaceButton";
 const routes = [
   {
     path: "index",
-    breadcrumbName: "First-level Menu",
+    breadcrumbName: "Home",
   },
   {
     path: "first",
-    breadcrumbName: "Second-level Menu",
+    breadcrumbName: "Docs",
   },
   {
     path: "second",
-    breadcrumbName: "Third-level Menu",
+    breadcrumbName: "GitHub",
   },
 ];
 
@@ -33,7 +33,7 @@ export const AppAnt = () => {
         className="site-page-header"
         title="Dialogue"
         breadcrumb={{ routes }}
-        subTitle="This is a subtitle"
+        
       />
 
       <Breadcrumb>

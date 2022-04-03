@@ -1,24 +1,17 @@
 import React from "react";
 import { Card, Space, Avatar, Tag, Timeline } from "antd";
 import dayjs from "dayjs";
-import { UserOutlined } from "@ant-design/icons";
+import { LikeOutlined, UserOutlined } from "@ant-design/icons";
 import Text from "antd/lib/typography/Text";
 
-
-export const Post = ({
-  title,
-  tags,
-  text,
-  created_at,
-  updated_at,
-}) => {
+export const Post = ({ title, _id, tags, text, created_at, updated_at }) => {
   const dataFormated = dayjs(created_at, updated_at).format(
     "DD.MM.YYYY, HH:mm:ss"
   );
   return (
     <>
       <Space direction="vertical">
-        <Card title={title} style={{ width: 300, height: 300}}>
+        <Card title={title} style={{ width: 300, height: 300 }}>
           <div>
             <Avatar size="small" icon={<UserOutlined />} />
             <Space direction="vertical">
@@ -31,6 +24,9 @@ export const Post = ({
           <section>
             Tags:
             <Tag>{tags}</Tag>
+          </section>
+          <section>
+            <LikeOutlined className="" />
           </section>
 
           <section>

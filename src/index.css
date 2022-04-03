@@ -1,5 +1,19 @@
 @import "~normalize.css";
 
+
+.site-page-header {
+    background: #1890ff;
+	height: 100px;
+    
+}
+
+.ant-page-header-heading-title {
+    font-style: italic;
+    font-size: 30px;
+    font-family: Arial, Helvetica, sans-serif;
+
+}
+
 .container {
     --gutter: 16px;
     width: 1024px;
