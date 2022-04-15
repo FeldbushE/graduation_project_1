@@ -5,14 +5,17 @@ import { Post } from "../Post";
 
 
 
-export const PostList = ({ posts }) => {
+export const PostList = ({ posts, onPostLike }) => {
   return (
     <>
-      <Row gutter={16}>
-        <Col>
-          {posts.map((post) => (
-            <Post key={post._id} {...post} />
+      <Row >
+        <Col >
+          
+          {posts.map(({__v, ...post}) => (
+            <Post key={post._id} {...post} onPostLike={onPostLike}/>
           ))}
+          
+          
         </Col>
       </Row>
     </>

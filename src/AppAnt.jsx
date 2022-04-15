@@ -1,76 +1,120 @@
-import React, { useState } from "react";
-import { Breadcrumb, PageHeader, Pagination, Space } from "antd";
+import React, { useState, useEffect } from "react";
+import { Breadcrumb, Space } from "antd";
 import Text from "antd/lib/typography/Text";
 import Title from "antd/lib/typography/Title";
-
-import { PostList } from "./components/PostList";
-import { postData } from "./posts";
+import api from "./utils/Api";
 import { Footer } from "./components/Footer";
+import { Header } from "./components/PageHeader";
+import { PageCatalog } from "./pages/CatalogPage/CatalogPage";
+import { PagePost } from "./pages/PostPage/PostPage";
+import { Route, Routes } from "react-router-dom";
+import { CurrentUserContext } from "./context/currentUserContext";
+import { ThemeContext, themes } from "./context/themeContext";
+import { NotFoundPage } from "./pages/NotFoundPage/NotFaundPage";
 import { SpaceButton } from "./components/SpaceButton";
 
-
-
-const routes = [
-  {
-    path: "index",
-    breadcrumbName: "Home",
-  },
-  {
-    path: "first",
-    breadcrumbName: "Docs",
-  },
-  {
-    path: "second",
-    breadcrumbName: "GitHub",
-  },
-];
-
 export const AppAnt = () => {
-  const [posts, setPosts] = useState(postData);
+  const [posts, setPosts] = useState([]);
+  const [currentUser, setCurrentUser] = useState({});
+  const [isLoading, setIsLoading] = useState(false);
+  const [theme, setTheme] = useState(themes.ligth);
+  const [contacts, setContacts] = useState([]);
+
+  const addContacts = (contactInfo) => {
+    setContacts([...contacts, contactInfo]);
+  };
+
+  useEffect(() => {
+    setIsLoading(true);
+    Promise.all([api.getPostsList(), api.getUserInfo()])
+      .then(([postData, userData]) => {
+        setPosts(postData);
+        setCurrentUser(userData);
+      })
+      .catch((err) => console.log(err))
+      .finally(() => setTimeout(() => setIsLoading(false)));
+  }, []);
+
+  function handleUpdateUser(userUpdate) {
+    api.setUserInfo(userUpdate).then((newUserData) => {
+      setCurrentUser(newUserData);
+    });
+  }
+
+  function handlePostLike({ _id, likes }) {
+    const isLiked = likes.some((id) => id === currentUser._id);
+    api.changeLikeStatus(_id, isLiked).then((newPost) => {
+      const newPostsState = posts.map((c) => {
+        return c._id === newPost._id ? newPost : c;
+      });
+
+      setPosts(newPostsState);
+    });
+  }
+
+  const handleClickToggleTheme = () => {
+    theme === themes.dark ? setTheme(themes.ligth) : setTheme(themes.dark);
+  };
+
+ 
   return (
-    <>
-      <PageHeader
-        className="site-page-header"
-        title="Dialogue"
-        breadcrumb={{ routes }}
+    <ThemeContext.Provider
+      value={{ theme: theme, toggleTheme: handleClickToggleTheme }}
+    >
+      <CurrentUserContext.Provider value={currentUser}>
+        <Header user={currentUser} onUpdateUser={handleUpdateUser} />
+        <section className="breadcrumb-dialogue">
+          <Breadcrumb>
+            <Breadcrumb.Item>
+              <a href="">Home</a>
+            </Breadcrumb.Item>
+            <Breadcrumb.Item>
+              <a href="">All posts</a>
+            </Breadcrumb.Item>
+          </Breadcrumb>
+        </section>
         
-      />
+        <SpaceButton />
+        <main className="dialogue__content container">
+          <section>
+            <Space direction="vertical">
+              <Title level={2}>Welcome to Our Image Board!</Title>
+              <Text>We're stoked that you're here. </Text>
+            </Space>
+          </section>
 
-      <Breadcrumb>
-        <Breadcrumb.Item>
-          <a href="">Home</a>
-        </Breadcrumb.Item>
-        <Breadcrumb.Item>
-          <a href="">All posts</a>
-        </Breadcrumb.Item>
-      </Breadcrumb>
-      <main className="dialogue__content container">
-        <section>
-          <Space direction="vertical">
-          <Title level={2}>Welcome to Our Image Board!</Title>
-          </Space>
-        </section>
-        <section>
-          <Space direction="vertical">
-            <Text>We're stoked that you're here. </Text>
-          </Space>
-        </section>
-        <SpaceButton/>
+          <Routes>
+            <Route
+              path="/"
+              element={
+                <PageCatalog
+                  isLoading={isLoading}
+                  posts={posts}
+                  handlePostLike={handlePostLike}
+                />
+              }
+            />
 
-        <PostList posts={posts} />
-      </main>
-      
-      <Pagination
-      defaultCurrent={6}
-      total={100}
-      pagination={{
-        defaultPageSize: "20",
-        showSizeChanger: true,
-        pageSizeOptions: [20, 50, 100],
-      }}
-      />
-      <Footer />
-    </>
-    
+            <Route
+              path="/post/:postID"
+              element={
+                <PagePost
+                  currentUser={currentUser}
+                  isLoading={isLoading}
+                  handlePostLike={handlePostLike}
+                />
+              }
+            />
+
+            <Route path="*" element={<NotFoundPage />} />
+            
+          </Routes>
+        </main>
+
+        
+
+        <Footer />
+      </CurrentUserContext.Provider>
+    </ThemeContext.Provider>
   );
 };

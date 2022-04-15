@@ -7,10 +7,10 @@
   "scripts": {
     "editorconfig": "editorconfig-checker",
     "test": "npm run editorconfig",
-    "build:prod": "rimraf ./dist && webpack --mode production --config webpack.config.js",
+    "build": "rimraf ./dist && webpack --mode production --config webpack.config.js",
     "build:dev": "rimraf ./dist && webpack --mode development --config webpack.config.js",
     "start": "webpack serve",
-    "deploy": "gh-pages -d dist"
+    "deploy": "yarn build && gh-pages -d dist"
   },
   "dependencies": {
     "@ant-design/icons": "^4.7.0",
@@ -21,6 +21,8 @@
     "normalize.css": "^8.0.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
+    "react-hook-form": "^7.29.0",
+    "react-router-dom": "6",
     "styled-components": "^5.3.3"
   },
   "devDependencies": {

@@ -3,7 +3,7 @@ import { Button, Space } from "antd";
 
 
 function handleClick(e) {
-  e.preventDefault();
+  
   console.log('Есть контакт');
 }
 

@@ -1,32 +1,142 @@
 @import "~normalize.css";
 
+* {
+    box-sizing: inherit;
+}
+
+#root {
+	display: flex;
+    flex-direction: column;
+    min-height: 100%;
+
+}
+
+html {
+    box-sizing: border-box;
+    height: 100%;
+}
+
+body {
+	font-family: "Nunito", "Arial", "Helvetica", sans-serif;
+	height: 100%;
+    margin: 0;
+    
+}
+
+img {
+    max-width: 100%;
+}
+
+main {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: auto;
+    padding: 0px 12px;
+}
 
 .site-page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     background: #1890ff;
-	height: 100px;
-    
+	width: 100%;
+    padding: 12px 12px;
 }
 
 .ant-page-header-heading-title {
     font-style: italic;
     font-size: 30px;
     font-family: Arial, Helvetica, sans-serif;
-
+        
 }
 
-.container {
-    --gutter: 16px;
-    width: 1024px;
-    max-width: calc(100% - var(--gutter) * 2);
-    margin-right: auto;
-    margin-left: auto;
+.site-page-header-profile {
+    display: flex;
+    flex-direction: column;
+    font-size: 15px;
+    font-weight: 400;
     
-    
+        
 }
+
+.btn-change-profile {
+    color: inherit;
+	padding: 10px 10px;
+    border: 1px solid transparent;
+	font-size: 14px;
+	font-weight: 400;
+	line-height: 10px;
+	border-radius: 2px;
+	text-decoration: none;
+	display: inline-block;
+    cursor: pointer;
+	text-align: center;
+	transition: background-color .3s;
+}
+
+
+.breadcrumb-dialogue {
+    padding: 12px 12px;
+}
+.anticon-edit {
+    cursor: pointer;  
+}
+
 
 
 .dialogue-app__footer-content {
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: flex-end;
+    padding: 50px;
+    
 }
+
+.post__favorite-icon_active {
+    color: #1890ff;
+}
+
+.anticon-delete {
+    float: right;
+    cursor: pointer;
+}
+
+.anticon-arrow-left {
+    cursor: pointer;
+}
+
+.ant-spin-spinning {
+    animation: spin 1s linear infinite;
+	height: 10px;
+	width: 10px;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	margin: -5px;
+	z-index: 20;
+}
+
+.dialoge-notFaunt {
+    display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	height: 100%;
+}
+
+.notFaunt-title {
+    font-weight: 700;
+	font-size: 32px;
+	line-height: 1.2;
+    color: #ff4d4f;
+}
+
+.ant-space-item {
+    padding: 12px 12px;
+}
+
+
+
+
+
